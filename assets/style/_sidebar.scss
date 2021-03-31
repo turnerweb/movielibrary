@@ -1,0 +1,54 @@
+.sidebar {
+    height: 100vh;
+    min-height: 800px;
+    width: 250px;
+    padding: 2rem;
+    position: absolute;
+    left: -250px;
+    background-color: $white;
+    text-align: center;
+    transition: left .4s ease;
+
+    &--open {
+        left: 0;
+    }
+
+    &__city {
+        font-size: 0.75rem;
+        color: $primary-color;
+    }
+
+    &__title {
+        margin-top: 30px;
+        font-size: 1.25rem;
+    }
+
+    &__label {
+        position: absolute;
+        left: 0;
+        top: 100px;
+        transition: left .4s ease;
+
+        &--open {
+            left: 250px;
+        }
+    }
+}
+
+.stats {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0.4rem;
+    border: 1px solid $background-color;
+    border-radius: 10px;
+
+    &__text {
+        font-size: 0.8rem;
+    }
+
+    &__num {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $primary-color;
+    }
+}

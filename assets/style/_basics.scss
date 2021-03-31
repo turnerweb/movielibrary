@@ -16,3 +16,16 @@ button {
     font-size: 1rem;
     font-family: $poppins;
 }
+
+body {
+    font-family: $poppins;
+    color: $background-color;
+    background-color: $background-color;
+}
+
+.wrapper {
+    max-width: 2500px;
+    margin: 0 auto;
+    position: relative;
+}
+
