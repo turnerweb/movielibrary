@@ -1,0 +1,77 @@
+.header {
+    @include content-width;
+
+    &__logo {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 1.25rem;
+        color: $logo-color;
+
+        &--white {
+            color: $white;
+            font-weight: 400;
+        }
+    }
+
+    &__nav {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 10px 10px 0 0;
+        background-color: $primary-color;
+    }
+
+    &__list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__list-item {
+        padding: 0.7rem;
+    }
+
+    &__link {
+        color: $white;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    @include tablet {
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__logo {
+            margin: 0;
+            text-align: left;
+        }
+
+        &__nav {
+            width: auto;
+            position: static;
+            border-radius: 0;
+            background-color: transparent;
+        }
+
+        &__list-item {
+            padding: 0;
+
+            &:first-child {
+                margin-right: 2rem;
+            }
+        }
+
+        &__link {
+            font-size: 1rem;
+
+            &--active,
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+}
