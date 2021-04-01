@@ -84,6 +84,48 @@ let movies = [
 ];
 
 
+let details = {
+    "Title": "Terminator Salvation",
+    "Year": "2009",
+    "Rated": "PG-13",
+    "Released": "21 May 2009",
+    "Runtime": "115 min",
+    "Genre": "Action, Sci-Fi",
+    "Director": "McG",
+    "Writer": "John Brancato, Michael Ferris",
+    "Actors": "Christian Bale, Sam Worthington, Moon Bloodgood, Helena Bonham Carter",
+    "Plot": "In 2003, in the Longview State Correctional Facility, the criminal Marcus Wright is on death row, and is convinced by the cancerous Dr. Serena Kogan to donate his body to her research and he accepts. In 2018, after an unsuccessful attack to a Skynet facility, only John Connor survives, but he discovers that Skynet is developing the powerful new model T-800. Out of the blue, Marcus appears naked and with amnesia in the location. Marcus befriends the teenager Kyle Reese and the girl Star who help him to survive the lethal machines and they travel together in a Jeep. Meanwhile the resistance discovers a signal that might turn-off the machines and John offers to test it. When Kyle is captured by a machine and brought to the Skynet headquarters, Marcus decides to help the youngster and heads to Skynet; on the way, he saves Blair Williams who suggests to him that he should meet John Connor first. But Marcus steps on a mine and is submitted to surgery, when a secret about his origins is disclosed.",
+    "Language": "English, Italian",
+    "Country": "USA, Germany, UK, Italy",
+    "Awards": "2 wins & 14 nominations.",
+    "Poster": "https://m.media-amazon.com/images/M/MV5BODBlOTJhZjItMGRmYS00YzM1LWFmZTktOTJmNDMyZTBjMjBkXkEyXkFqcGdeQXVyMjMwNDgzNjc@._V1_SX300.jpg",
+    "Ratings": [
+        {
+            "Source": "Internet Movie Database",
+            "Value": "6.5/10"
+        },
+        {
+            "Source": "Rotten Tomatoes",
+            "Value": "33%"
+        },
+        {
+            "Source": "Metacritic",
+            "Value": "49/100"
+        }
+    ],
+    "Metascore": "49",
+    "imdbRating": "6.5",
+    "imdbVotes": "344,733",
+    "imdbID": "tt0438488",
+    "Type": "movie",
+    "DVD": "22 Apr 2011",
+    "BoxOffice": "$125,322,469",
+    "Production": "Moritz Borman",
+    "Website": "N/A",
+    "Response": "True"
+}
+
+
 function searchMovies(url) {
     fetch(url)
         /* .then((response) => response.json()) */
@@ -111,17 +153,62 @@ function searchMovies(url) {
 
                 resultContainer.innerHTML += singleMovie;
             }
-
+            getMovieDetails();
         })
         .catch(function (error) {
             console.log(error);
         })
+};
 
-}
+
+
+function getMovieDetails() {
+
+    let detailButtons = document.querySelectorAll('.movie__details-button');
+
+    for(let button of detailButtons) {
+        button.addEventListener('click', (e) => {
+            const key = 'e9bcda9a';
+            let movieId = e.target.id;
+            let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
+
+            fetch(detailUrl)
+                /* .then((response) => response.json()) */
+                .then(function(data) {
+                   /*  let details = data; */
+
+                    let bg = document.querySelector('.details');
+                    let card = document.querySelector('.card');
+                    
+                    bg.classList.add('details--open');
+                    card.classList.add('card--open');
+                    document.querySelector('.details__img').src = details.Poster;
+
+                    document.querySelector('.details__close').addEventListener('click', () => {
+                        bg.classList.remove('details--open');
+                        card.classList.remove('card--open');
+                    })
+                
+
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+        })
+    }
+
+
+};
+
+
+
+
 
 let resultContainer = document.querySelector('.results');
 
 document.querySelector('.search__button').addEventListener('click', () => {
+
     resultContainer.innerHTML = '';
     document.querySelector('.results__title').innerHTML = 'Search Results';
 
