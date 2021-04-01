@@ -182,7 +182,15 @@ function getMovieDetails() {
                     
                     bg.classList.add('details--open');
                     card.classList.add('card--open');
+
+                    document.querySelector('.details__imdb-value').innerHTML = details.imdbRating;
                     document.querySelector('.details__img').src = details.Poster;
+                    document.querySelector('.card__genre-value').innerHTML = details.Genre;
+                    document.querySelector('.card__runtime-value').innerHTML = details.Runtime;
+                    document.querySelector('.card__cast-value').innerHTML = details.Actors;
+                    document.querySelector('.card__title').innerHTML = details.Title;
+                    document.querySelector('.card__plot').innerHTML = details.Plot;
+
 
                     document.querySelector('.details__close').addEventListener('click', () => {
                         bg.classList.remove('details--open');
