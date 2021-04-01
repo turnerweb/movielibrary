@@ -25,6 +25,11 @@
         border-radius: 10px;
         background-color: $primary-color;
         color: $white;
+        transition: border-radius .3s;
+
+        &:hover {
+            border-radius: 50px;
+        }
     }
 
     @include tablet {

@@ -15,9 +15,14 @@ p {
 button {
     font-size: 1rem;
     font-family: $poppins;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 body {
+    min-width: 350px;
     font-family: $poppins;
     color: $background-color;
     background-color: $background-color;
