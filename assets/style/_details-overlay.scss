@@ -67,6 +67,16 @@
             border-radius: 20px;
         }
     }
+
+    @include desktop {
+        &__img {
+            position: absolute;
+            left: 52px;
+            z-index: 2;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.6);
+        }
+    }
 }
 
 .card {
@@ -160,7 +170,8 @@
             display: block;
             -webkit-line-clamp: unset;
             -webkit-box-orient: unset;
-            height: auto;
+            max-height: unset;
+            line-height: 145%;
         }
 
         &__button {
@@ -169,6 +180,31 @@
             position: absolute;
             bottom: 0;
             right: 20px;
+        }
+    }
+
+    @include desktop {
+        display: flex;
+        flex-direction: column;
+
+        &__title,
+        &__plot,
+        &__infos-container {
+            width: 60%;
+            align-self: flex-end;
+        }
+
+        &__infos-container {
+            position: static;
+        }
+
+        &__tablet {
+            flex-direction: column;
+        }
+
+        &__button {
+            right: unset;
+            left: 20px;
         }
     }
 }
