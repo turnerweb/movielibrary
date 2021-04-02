@@ -54,6 +54,19 @@
         height: 100%;
         object-fit: cover;
     }
+
+    @include tablet {
+        @include content-width;
+
+        &__img {
+            max-width: 400px;
+            height: auto;
+            object-fit: unset;
+            display: block;
+            margin: 100px auto 0 auto;
+            border-radius: 20px;
+        }
+    }
 }
 
 .card {
@@ -113,5 +126,49 @@
         border-radius: 10px;
         background-color: $primary-color;
         color: $white;
+    }
+
+    @include tablet {
+        @include content-width;
+        padding: 2.5rem;
+        height: auto;
+        font-size: 1rem;
+
+        &__title {
+           font-size: 2.1rem; 
+           width: 100%;
+           
+        }
+
+        &__tablet {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        &__infos-container {
+            order: 1;
+            width: 45%;
+            align-items: center;
+        }
+
+        &__plot {
+            width: 100%;
+            overflow: unset;
+            text-overflow: unset;
+            display: block;
+            -webkit-line-clamp: unset;
+            -webkit-box-orient: unset;
+            height: auto;
+        }
+
+        &__button {
+            order: 2;
+            width: auto;
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+        }
     }
 }
