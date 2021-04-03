@@ -133,7 +133,6 @@ function searchMovies(url) {
 
             /* let movies = data.Search; */
 
-            console.log(movies)
 
             for(let movie of movies) {
                 
@@ -176,28 +175,7 @@ function getMovieDetails() {
                 /* .then((response) => response.json()) */
                 .then(function(data) {
                    /*  let details = data; */
-
-                    let bg = document.querySelector('.details');
-                    let card = document.querySelector('.card');
-                    
-                    bg.classList.add('details--open');
-                    card.classList.add('card--open');
-
-                    document.querySelector('.details__imdb-value').innerHTML = details.imdbRating;
-                    document.querySelector('.details__img').src = details.Poster;
-                    document.querySelector('.card__genre-value').innerHTML = details.Genre;
-                    document.querySelector('.card__runtime-value').innerHTML = details.Runtime;
-                    document.querySelector('.card__cast-value').innerHTML = details.Actors;
-                    document.querySelector('.card__title').innerHTML = details.Title;
-                    document.querySelector('.card__plot').innerHTML = details.Plot;
-
-
-                    document.querySelector('.details__close').addEventListener('click', () => {
-                        bg.classList.remove('details--open');
-                        card.classList.remove('card--open');
-                    })
-                
-
+                    showDetails(details);
 
                 })
                 .catch(function(error) {
@@ -205,10 +183,75 @@ function getMovieDetails() {
                 })
         })
     }
-
-
 };
 
+
+function showDetails(details) {
+
+    let bg = document.querySelector('.details');
+    let card = document.querySelector('.card');
+    
+    bg.classList.add('details--open');
+    card.classList.add('card--open');
+
+    document.querySelector('.details__imdb-value').innerHTML = details.imdbRating;
+    document.querySelector('.details__img').src = details.Poster;
+    document.querySelector('.card__genre-value').innerHTML = details.Genre;
+    document.querySelector('.card__runtime-value').innerHTML = details.Runtime;
+    document.querySelector('.card__cast-value').innerHTML = details.Actors;
+    document.querySelector('.card__title').innerHTML = details.Title;
+    document.querySelector('.card__plot').innerHTML = details.Plot;
+    document.querySelector('.details__close').addEventListener('click', () => {
+        bg.classList.remove('details--open');
+        card.classList.remove('card--open');
+    });
+
+    let libraryButton = document.querySelector('.card__button');
+    libraryButton.addEventListener('click', () => {
+        
+
+        library = getLocalstorage();
+
+        if(library.length === 0) {
+            library.push(details);
+            setLocalstorage(library);
+        } else {
+            for(let movie of library) {
+                let id = details.imdbID;
+                if(Object.values(movie).includes(id)) {
+
+                    console.log('in library')
+                } else {
+
+                    library.push(details);
+                    setLocalstorage(library);
+                }
+            }            
+        }
+
+
+
+
+
+
+
+    })
+};
+
+
+function getLocalstorage() {
+    if(localStorage.getItem('movielibrary') !== null) {
+        return JSON.parse(localStorage.getItem('movielibrary'));
+    } else {
+        console.log('no movies in library');
+        return [];
+    }
+};
+
+function setLocalstorage(library) {
+    const str = JSON.stringify(library);
+    localStorage.setItem('movielibrary', str);
+}
 
 
 
