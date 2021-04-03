@@ -145,7 +145,7 @@ function searchMovies(url) {
                                 <p class="movie__year">${movie.Year}</p>
                             </div>
                         </div>
-                        <button class="movie__library-button">Add to library</button>
+                        <button class="movie__library-button ${movie.imdbID}">Add to library</button>
                         <button class="movie__details-button" id="${movie.imdbID}">Details</button>
                     </div>
                 `;
@@ -153,6 +153,7 @@ function searchMovies(url) {
                 resultContainer.innerHTML += singleMovie;
             }
             getMovieDetails();
+            addToLibrary();
         })
         .catch(function (error) {
             console.log(error);
@@ -181,6 +182,48 @@ function getMovieDetails() {
                 .catch(function(error) {
                     console.log(error);
                 })
+        })
+    }
+};
+
+function addToLibrary() {
+
+    let libraryButtons = document.querySelectorAll('.movie__library-button');
+
+    for(let button of libraryButtons) {
+        button.addEventListener('click', (e) => {
+            const key = 'e9bcda9a';
+            let movieId = e.target.nextElementSibling.id;
+            console.log(movieId)
+            let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
+
+            fetch(detailUrl)
+                /* .then((response) => response.json()) */
+                .then(function(data) {
+                /*  let details = data; */
+                    library = getLocalstorage();
+
+                    if(library.length === 0) {
+                        library.push(details);
+                        setLocalstorage(library);
+                    } else {
+                        for(let movie of library) {
+                            let id = details.imdbID;
+                            if(Object.values(movie).includes(id)) {
+            
+                                document.querySelector('.card__note').innerHTML = "Already in library";
+                            } else {
+            
+                                library.push(details);
+                                setLocalstorage(library);
+                            }
+                        }            
+                    }
+             
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })   
         })
     }
 };
@@ -220,7 +263,7 @@ function showDetails(details) {
                 let id = details.imdbID;
                 if(Object.values(movie).includes(id)) {
 
-                    console.log('in library')
+                    document.querySelector('.card__note').innerHTML = "Already in library";
                 } else {
 
                     library.push(details);
@@ -228,12 +271,6 @@ function showDetails(details) {
                 }
             }            
         }
-
-
-
-
-
-
 
     })
 };

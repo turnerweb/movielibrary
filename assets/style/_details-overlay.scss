@@ -138,6 +138,14 @@
         color: $white;
     }
 
+    &__note {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-size: 1rem;
+        color: #ff5050;
+    }
+
     @include tablet {
         @include content-width;
         padding: 2.5rem;
@@ -181,6 +189,14 @@
             bottom: 0;
             right: 20px;
         }
+
+        &__note {
+            order: 3;
+            width: auto;
+            position: absolute;
+            right: 20px;
+            bottom: 45px;
+        }
     }
 
     @include desktop {
@@ -205,6 +221,12 @@
         &__button {
             right: unset;
             left: 20px;
+        }
+
+        &__note {
+            right: unset;
+            left: 20px;
+            bottom: 45px;
         }
     }
 }
