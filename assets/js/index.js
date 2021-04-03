@@ -204,6 +204,7 @@ function addToLibrary() {
                     library = getLocalstorage();
 
                     if(library.length === 0) {
+                        details.Status = "Unwatched";
                         library.push(details);
                         setLocalstorage(library);
                     } else {
@@ -213,7 +214,7 @@ function addToLibrary() {
             
                                 document.querySelector('.card__note').innerHTML = "Already in library";
                             } else {
-            
+                                details.Status = "Unwatched";
                                 library.push(details);
                                 setLocalstorage(library);
                             }
@@ -256,6 +257,7 @@ function showDetails(details) {
         library = getLocalstorage();
 
         if(library.length === 0) {
+            details.Status = "Unwatched";
             library.push(details);
             setLocalstorage(library);
         } else {
@@ -265,7 +267,7 @@ function showDetails(details) {
 
                     document.querySelector('.card__note').innerHTML = "Already in library";
                 } else {
-
+                    details.Status = "Unwatched";
                     library.push(details);
                     setLocalstorage(library);
                 }
