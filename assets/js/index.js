@@ -126,7 +126,7 @@ let details = {
 }
 
 
-function searchMovies(url) {
+function searchMovies(url, resultContainer) {
     fetch(url)
         /* .then((response) => response.json()) */
         .then(function(data) {
@@ -294,18 +294,95 @@ function setLocalstorage(library) {
 
 
 
+if(document.body.classList.contains('search-page')) {
+    let resultContainer = document.querySelector('.results');
 
-let resultContainer = document.querySelector('.results');
+    document.querySelector('.search__button').addEventListener('click', () => {
 
-document.querySelector('.search__button').addEventListener('click', () => {
+        resultContainer.innerHTML = '';
+        document.querySelector('.results__title').innerHTML = 'Search Results';
 
-    resultContainer.innerHTML = '';
-    document.querySelector('.results__title').innerHTML = 'Search Results';
+        let searchQuery = document.querySelector('.search__input').value;
+        const key = 'e9bcda9a';
+        let url = `http://www.omdbapi.com/?apikey=${key}&s=${searchQuery}&type=movie`;
 
-    let searchQuery = document.querySelector('.search__input').value;
-    const key = 'e9bcda9a';
-    let url = `http://www.omdbapi.com/?apikey=${key}&s=${searchQuery}&type=movie`;
+        searchMovies(url, resultContainer);
 
-    searchMovies(url);
+    });    
+}
 
-});
+
+
+if(document.body.classList.contains('library-page')){
+
+    let libraryContainer = document.querySelector('.library__container');  
+    let localdata = getLocalstorage();
+
+    if(localdata.length === 0) {
+        console.log('no movies')
+    } else {
+        for(let movie of localdata) {
+            let libraryMovie = `
+            <div class="movie">
+                <img class="movie__watched" src="assets/img/watched.svg" alt="">
+                <div class="movie__top-container">
+                    <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
+                    <div class="movie__text-container">
+                        <h3 class="movie__title">${movie.Title}</h3>
+                        <p class="movie__year">${movie.Year}</p>
+                    </div>
+                </div>
+                <button class="movie__watched-button">Watched</button>       
+                <button class="movie__details-button" id="${movie.imdbID}">Details</button>
+                <img class="movie__remove-button" src="assets/img/delete.svg" alt="">
+            </div>
+        `;
+
+        if(movie.Status === "watched") {
+           document.querySelector('.movie__watched').classList.add('movie__watched--show');
+           document.querySelector('.movie').classList.add('movie--watched'); 
+        }
+
+        libraryContainer.innerHTML += libraryMovie;
+        }
+
+        let detailButtons = document.querySelectorAll('.movie__details-button');
+        let removeButtons = document.querySelectorAll('.movie__remove-button');
+
+        for(let button of detailButtons) {
+            button.addEventListener('click', (e) => {
+               let id = e.target.id;
+
+               for(let i = 0; i < localdata.length; i++) {
+                   if ( id === localdata[i].imdbID ) {
+                       showDetails(localdata[i])
+                   }
+               }
+            })
+        }
+
+        for(let button of removeButtons) {
+            button.addEventListener('click', (e) => {
+                let id = e.target.nextElementSibling.id;
+
+                e.target.parentElement.parentElement.remove(e.target.parentElement);
+
+                for(let i = 0; i < localdata.length; i++) {
+                    if ( id === localdata[i].imdbID ) {
+                        delete localdata[i];
+
+                        if(localdata[0] === undefined) {
+                            localStorage.clear();
+                        } else {
+                            setLocalstorage(localdata);    
+                        }
+
+                        
+                    }
+                }
+            })
+        }
+    }
+
+}
+
