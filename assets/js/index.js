@@ -348,8 +348,34 @@ if(document.body.classList.contains('library-page')){
         libraryContainer.innerHTML += libraryMovie;
         }
 
+        let watchedButtons = document.querySelectorAll('.movie__watched-button');
         let detailButtons = document.querySelectorAll('.movie__details-button');
         let removeButtons = document.querySelectorAll('.movie__remove-button');
+
+        for(let button of watchedButtons) {
+            button.addEventListener('click', (e) => {
+                let id = e.target.parentElement.id;
+
+                for(let i = 0; i < localdata.length; i++) {
+                    console.log(localdata[i])
+                    if(id === localdata[i].imdbID) {
+                        if(localdata[i].Status === "Watched") {
+                            localdata[i].Status = "Unwatched";
+                            e.target.innerHTML = "Watched";
+                            document.querySelector('.movie__watched').classList.remove('movie__watched--show');
+                            document.querySelector('.movie').classList.remove('movie--watched');
+                        } else if (localdata[i].Status === "Unwatched") {
+                            localdata[i].Status = "Watched";
+                            e.target.innerHTML = "Unwatched";
+                            document.querySelector('.movie__watched').classList.add('movie__watched--show');
+                            document.querySelector('.movie').classList.add('movie--watched');
+                        }
+                    }
+                }
+                setLocalstorage(localdata);
+
+            })
+        }
 
         for(let button of detailButtons) {
             button.addEventListener('click', (e) => {
