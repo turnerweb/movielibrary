@@ -69,6 +69,22 @@
         font-size: 1rem;
     }
 
+    &__buttons-container {
+        @include flex-center;
+        margin-top: 30px;
+    }
+
+    &__watched-button,
+    &__details-button {
+        margin-right: 10px;
+    }
+
+    &__remove-button {
+        @include flex-center;
+        border: none;
+        background-color: transparent;
+    }
+
     &__watched-button,
     &__library-button,
     &__details-button {
@@ -81,7 +97,12 @@
         }
     }
 
-    &__watched-button,
+    &__watched-button {
+        border: none;
+        background-color: $primary-color;
+        color: $white;
+    }
+
     &__library-button {
         margin: 30px 10px 0 0; 
         border: none;

@@ -137,7 +137,7 @@ function searchMovies(url, resultContainer) {
             for(let movie of movies) {
                 
                 let singleMovie = `
-                    <div class="movie">
+                    <div class="movie" id="${movie.imdbID}">
                         <div class="movie__top-container">
                             <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
                             <div class="movie__text-container">
@@ -146,7 +146,7 @@ function searchMovies(url, resultContainer) {
                             </div>
                         </div>
                         <button class="movie__library-button ${movie.imdbID}">Add to library</button>
-                        <button class="movie__details-button" id="${movie.imdbID}">Details</button>
+                        <button class="movie__details-button">Details</button>
                     </div>
                 `;
 
@@ -169,7 +169,7 @@ function getMovieDetails() {
     for(let button of detailButtons) {
         button.addEventListener('click', (e) => {
             const key = 'e9bcda9a';
-            let movieId = e.target.id;
+            let movieId = e.target.parentElement.id;
             let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
             fetch(detailUrl)
@@ -193,7 +193,7 @@ function addToLibrary() {
     for(let button of libraryButtons) {
         button.addEventListener('click', (e) => {
             const key = 'e9bcda9a';
-            let movieId = e.target.nextElementSibling.id;
+            let movieId = e.target.parentElement.id;
             console.log(movieId)
             let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
@@ -332,9 +332,11 @@ if(document.body.classList.contains('library-page')){
                         <p class="movie__year">${movie.Year}</p>
                     </div>
                 </div>
-                <button class="movie__watched-button">Watched</button>       
-                <button class="movie__details-button" id="${movie.imdbID}">Details</button>
-                <img class="movie__remove-button" src="assets/img/delete.svg" alt="">
+                <div class="movie__buttons-container" id="${movie.imdbID}">
+                    <button class="movie__watched-button">Watched</button>       
+                    <button class="movie__details-button">Details</button>
+                    <button class="movie__remove-button"><img class="movie__remove-button" src="assets/img/delete.svg" alt=""></button>
+                </div>
             </div>
         `;
 
@@ -351,7 +353,7 @@ if(document.body.classList.contains('library-page')){
 
         for(let button of detailButtons) {
             button.addEventListener('click', (e) => {
-               let id = e.target.id;
+               let id = e.target.parentElement.id;
 
                for(let i = 0; i < localdata.length; i++) {
                    if ( id === localdata[i].imdbID ) {
@@ -363,7 +365,7 @@ if(document.body.classList.contains('library-page')){
 
         for(let button of removeButtons) {
             button.addEventListener('click', (e) => {
-                let id = e.target.nextElementSibling.id;
+                let id = e.target.parentElement.id;
 
                 e.target.parentElement.parentElement.remove(e.target.parentElement);
 
