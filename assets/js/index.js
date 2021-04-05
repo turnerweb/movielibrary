@@ -282,7 +282,6 @@ function getLocalstorage() {
     if(localStorage.getItem('movielibrary') !== null) {
         return JSON.parse(localStorage.getItem('movielibrary'));
     } else {
-        console.log('no movies in library');
         return [];
     }
 };
@@ -319,7 +318,7 @@ if(document.body.classList.contains('library-page')){
     let localdata = getLocalstorage();
 
     if(localdata.length === 0) {
-        console.log('no movies')
+        libraryContainer.innerHTML = '<h2 class="library__no-movies">No Movies in Library</h2>';
     } else {
         for(let movie of localdata) {
             let libraryMovie = `
@@ -339,13 +338,15 @@ if(document.body.classList.contains('library-page')){
                 </div>
             </div>
         `;
+        
+        libraryContainer.innerHTML += libraryMovie;
 
-        if(movie.Status === "watched") {
+        if(localdata.length > 0 && movie.Status === "Watched") {
            document.querySelector('.movie__watched').classList.add('movie__watched--show');
            document.querySelector('.movie').classList.add('movie--watched'); 
         }
 
-        libraryContainer.innerHTML += libraryMovie;
+        
         }
 
         let watchedButtons = document.querySelectorAll('.movie__watched-button');
@@ -391,14 +392,15 @@ if(document.body.classList.contains('library-page')){
 
         for(let button of removeButtons) {
             button.addEventListener('click', (e) => {
-                let id = e.target.parentElement.id;
+                let id = e.target.parentElement.parentElement.id;
 
-                e.target.parentElement.parentElement.remove(e.target.parentElement);
-
+                e.target.parentElement.parentElement.parentElement.remove(e.target.parentElement.parentElement);
+                
+                console.log(id)
                 for(let i = 0; i < localdata.length; i++) {
                     if ( id === localdata[i].imdbID ) {
                         delete localdata[i];
-
+                        
                         if(localdata[0] === undefined) {
                             localStorage.clear();
                         } else {
@@ -407,7 +409,7 @@ if(document.body.classList.contains('library-page')){
 
                         
                     }
-                }
+                }console.log(localdata)
             })
         }
     }
