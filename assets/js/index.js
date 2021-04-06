@@ -60,6 +60,8 @@
         }
     }
 
+
+
     let searchResults = {
         init: function(movies) {
             let movieList = movies;//delete if not used
@@ -71,6 +73,7 @@
             this.libraryButtons = document.querySelectorAll('.movie__library-button');
             this.detailsButtons = document.querySelectorAll('.movie__details-button');
             this.closeDetails = document.querySelector('.details__close-icon');
+            this.detailLibraryButton = document.querySelector('.card__button');
             this.bg = document.querySelector('.details');
             this.card = document.querySelector('.card');
             this.imdbValue = document.querySelector('.details__imdb-value');
@@ -83,7 +86,7 @@
         },
 
         bindEvents: function() {
-            /* for(let button of this.libraryButtons){button.addEventListener('click',addToLibrary)}; */
+            for(let button of this.libraryButtons){button.addEventListener('click',this.addToLibrary.bind(this))};
             for(let button of this.detailsButtons){button.addEventListener('click', this.getDetailsForRender.bind(this))};
             this.closeDetails.addEventListener('click', this.close);
         },
@@ -114,11 +117,48 @@
             this.cast.innerHTML = data.Actors;
             this.title.innerHTML = data.Title;
             this.plot.innerHTML = data.Plot;
+            this.detailLibraryButton.addEventListener('click', () => {
+                data.Status = "Unwatched";
+                let localData = searchResults.getLocalstorage();
+                localData.push(data);
+                searchResults.setLocalstorage(localData);
+            });
         },
 
         close: function() {
             document.querySelector('.details').classList.remove('details--open');
             document.querySelector('.card').classList.remove('card--open');
+        },
+
+        addToLibrary: function(e) {
+            let movieId = e.target.parentElement.id;
+            let url = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
+
+            fetch(url)
+                .then((response) => response.json())
+                .then(function(data) {
+                    data.Status = "Unwatched";
+                    let localData = searchResults.getLocalstorage();
+                    localData.push(data);
+                    searchResults.setLocalstorage(localData);
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
+        },
+
+        getLocalstorage() {
+            if(localStorage.getItem('movielibrary') !== null) {
+                return JSON.parse(localStorage.getItem('movielibrary'));
+            } else {
+                return [];
+            }
+        },
+
+        setLocalstorage(localData) {
+            const str = JSON.stringify(localData);
+            localStorage.setItem('movielibrary', str);
         }
 
     }
