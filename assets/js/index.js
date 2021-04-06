@@ -311,12 +311,73 @@
         }
     }
 
+    let sidebar = {
+        init: function() {
+            this.cacheDom();
+            this.bindEvents();
+        },
+
+        cacheDom: function() {
+            this.openButton = document.querySelector('.sidebar__label');
+            this.sidebar = document.querySelector('.sidebar');
+            this.libraryValue = document.querySelector('#library');
+            this.watchedValue = document.querySelector('#watched');
+            this.bestValue = document.querySelector('#best');
+            this.worstValue = document.querySelector('#worst');
+            
+        },
+
+        bindEvents: function() {
+            this.openButton.addEventListener('click', this.openSidebar.bind(this));
+        },
+
+        openSidebar(e) {
+            e.target.classList.toggle('sidebar__label--open');
+            this.sidebar.classList.toggle('sidebar--open');
+            this.getValues();
+        },
+
+        getValues() {
+            let localData = searchResults.getLocalstorage();
+            this.getMoviesNum(localData);
+            this.getWatched(localData);
+            this.getBest(localData);
+            this.getWorst(localData);
+        },
+
+        getMoviesNum(localData) {
+            this.libraryValue.innerHTML = localData.length;
+        },
+
+        getWatched(localData) {
+            let num = 0;
+            for(let i = 0; i < localData.length; i++) {
+                if(localData[i].Status === "Watched") {
+                    num++;
+                }
+            }
+            this.watchedValue.innerHTML = num;
+        },
+
+        getBest(localData) {
+            const max = localData.reduce((prev, current) => (prev.imdbRating > current.imdbRating) ? prev : current, 1);
+            this.bestValue.innerHTML = `${max.Title} (imdb: ${max.imdbRating})`;
+        },
+
+        getWorst(localData) {
+            const min = localData.reduce((prev, current) => (prev.imdbRating < current.imdbRating) ? prev : current, 1);
+            this.worstValue.innerHTML = `${min.Title} (imdb: ${min.imdbRating})`;
+        }
+    }
+
 
 
     if(document.body.classList.contains('search-page')) {
-        search.init();    
+        search.init(); 
+        sidebar.init();   
     } else {
         renderLibrary.init();
+        sidebar.init();
     }
 
     
