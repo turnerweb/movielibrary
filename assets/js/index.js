@@ -163,5 +163,60 @@
 
     }
 
-    search.init();
+    let renderLibrary = {
+        init: function() {
+            this.cacheDom();
+            this.renderLibraryMovies();
+        },
+
+        cacheDom: function() {
+            this.container = document.querySelector('.library__container');
+        },
+
+        getLocalstorage() {
+            return searchResults.getLocalstorage();      
+        },
+
+        renderLibraryMovies: function() {
+            let movies = this.getLocalstorage();
+
+            if(movies.length === 0) {
+                this.container.innerHTML = '<h2 class="library__no-movies">No movies in Library</h2>';
+            } else {
+                for(let movie of movies) {
+                    let libraryMovie = `
+                    <div class="movie">
+                        <img class="movie__watched" src="assets/img/watched.svg" alt="">
+                        <div class="movie__top-container">
+                            <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
+                            <div class="movie__text-container">
+                                <h3 class="movie__title">${movie.Title}</h3>
+                                <p class="movie__year">${movie.Year}</p>
+                            </div>
+                        </div>
+                        <div class="movie__buttons-container" id="${movie.imdbID}">
+                            <button class="movie__watched-button">Watched</button>       
+                            <button class="movie__details-button">Details</button>
+                            <button class="movie__remove-button"><img class="movie__remove-button" src="assets/img/delete.svg" alt=""></button>
+                        </div>
+                    </div>
+                    `;
+
+                    this.container.innerHTML += libraryMovie;                
+                }
+            }
+        }
+    }
+
+ 
+
+
+
+    if(document.body.classList.contains('search-page')) {
+        search.init();    
+    } else {
+        renderLibrary.init();
+    }
+
+    
 })()
