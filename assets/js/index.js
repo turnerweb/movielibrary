@@ -5,12 +5,35 @@ const label = document.querySelector('.sidebar__label');
 label.addEventListener('click', (e) => {
     e.target.classList.toggle('sidebar__label--open');
     document.querySelector('.sidebar').classList.toggle('sidebar--open');
+
+    let libraryData = getLocalstorage();
+
+    document.querySelector('#library').innerHTML = libraryData.length;
+    let watched = 0;
+
+    for(let i = 0; i < libraryData.length; i++) {
+        if(libraryData[i].Status === "Watched") {
+            watched++;
+        }
+    }
+    document.querySelector('#watched').innerHTML = watched;
+
+    let best = libraryData.reduce(
+        (max, movie) => (movie.imdbRating > max ? movie.imdbRating : max),
+        document.querySelector('#best').innerHTML = libraryData[0].Title
+    );
+
+    let worst = libraryData.reduce(
+        (min, movie) => (movie.imdbRating < min ? movie.imdbRating : min),
+        document.querySelector('#worst').innerHTML = libraryData[0].Title
+    );
+
 });
 
 
 //movie search
 
-let movies = [
+/* let movies = [
     {
         "Title": "Terminator 2: Judgment Day",
         "Year": "1991",
@@ -124,14 +147,14 @@ let details = {
     "Website": "N/A",
     "Response": "True"
 }
-
+ */
 
 function searchMovies(url, resultContainer) {
     fetch(url)
-        /* .then((response) => response.json()) */
+        .then((response) => response.json())
         .then(function(data) {
 
-            /* let movies = data.Search; */
+            let movies = data.Search;
 
 
             for(let movie of movies) {
@@ -173,9 +196,9 @@ function getMovieDetails() {
             let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
             fetch(detailUrl)
-                /* .then((response) => response.json()) */
+                .then((response) => response.json())
                 .then(function(data) {
-                   /*  let details = data; */
+                    let details = data;
                     showDetails(details);
 
                 })
@@ -198,9 +221,9 @@ function addToLibrary() {
             let detailUrl = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
             fetch(detailUrl)
-                /* .then((response) => response.json()) */
+                .then((response) => response.json())
                 .then(function(data) {
-                /*  let details = data; */
+                 let details = data;
                     library = getLocalstorage();
 
                     if(library.length === 0) {
@@ -320,31 +343,37 @@ if(document.body.classList.contains('library-page')){
     if(localdata.length === 0) {
         libraryContainer.innerHTML = '<h2 class="library__no-movies">No Movies in Library</h2>';
     } else {
+
         for(let movie of localdata) {
-            let libraryMovie = `
-            <div class="movie">
-                <img class="movie__watched" src="assets/img/watched.svg" alt="">
-                <div class="movie__top-container">
-                    <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
-                    <div class="movie__text-container">
-                        <h3 class="movie__title">${movie.Title}</h3>
-                        <p class="movie__year">${movie.Year}</p>
+
+            if(movie !== null) {
+                let libraryMovie = `
+                <div class="movie">
+                    <img class="movie__watched" src="assets/img/watched.svg" alt="">
+                    <div class="movie__top-container">
+                        <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
+                        <div class="movie__text-container">
+                            <h3 class="movie__title">${movie.Title}</h3>
+                            <p class="movie__year">${movie.Year}</p>
+                        </div>
+                    </div>
+                    <div class="movie__buttons-container" id="${movie.imdbID}">
+                        <button class="movie__watched-button">Watched</button>       
+                        <button class="movie__details-button">Details</button>
+                        <button class="movie__remove-button"><img class="movie__remove-button" src="assets/img/delete.svg" alt=""></button>
                     </div>
                 </div>
-                <div class="movie__buttons-container" id="${movie.imdbID}">
-                    <button class="movie__watched-button">Watched</button>       
-                    <button class="movie__details-button">Details</button>
-                    <button class="movie__remove-button"><img class="movie__remove-button" src="assets/img/delete.svg" alt=""></button>
-                </div>
-            </div>
-        `;
-        
-        libraryContainer.innerHTML += libraryMovie;
+            `;
+            
+            libraryContainer.innerHTML += libraryMovie;
+    
+            if(localdata.length > 0 && movie.Status === "Watched") {
+               document.querySelector('.movie__watched').classList.add('movie__watched--show');
+               document.querySelector('.movie').classList.add('movie--watched'); 
+            }
+            }
 
-        if(localdata.length > 0 && movie.Status === "Watched") {
-           document.querySelector('.movie__watched').classList.add('movie__watched--show');
-           document.querySelector('.movie').classList.add('movie--watched'); 
-        }
+ 
 
         
         }
@@ -415,4 +444,5 @@ if(document.body.classList.contains('library-page')){
     }
 
 }
+
 
