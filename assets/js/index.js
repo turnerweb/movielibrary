@@ -1,6 +1,8 @@
 (function() {
     const key = 'e9bcda9a';
 
+    //search for Movies from input field
+
     let search = {
         init: function() {
             this.cacheDom();
@@ -61,6 +63,41 @@
     }
 
 
+    //Open and add Details 
+
+    let details = {
+        init: function(data) {
+            this.cacheDom();
+            this.renderData(data);
+        },
+
+        cacheDom: function() {
+            this.bg = document.querySelector('.details');
+            this.card = document.querySelector('.card');
+            this.imdbValue = document.querySelector('.details__imdb-value');
+            this.img = document.querySelector('.details__img');
+            this.genre = document.querySelector('.card__genre-value');
+            this.runtime = document.querySelector('.card__runtime-value');
+            this.cast = document.querySelector('.card__cast-value');
+            this.title = document.querySelector('.card__title');
+            this.plot = document.querySelector('.card__plot');
+        },
+
+        renderData(data) {
+            this.bg.classList.add('details--open');
+            this.card.classList.add('card--open');
+            this.imdbValue.innerHTML = data.imdbRating;
+            this.img.src = data.Poster;
+            this.genre.innerHTML = data.Genre;
+            this.runtime.innerHTML = data.Runtime;
+            this.cast.innerHTML = data.Actors;
+            this.title.innerHTML = data.Title;
+            this.plot.innerHTML = data.Plot;
+        }
+    }
+
+
+    //Add functionality to the buttons from searchresults
 
     let searchResults = {
         init: function() {
@@ -73,15 +110,6 @@
             this.detailsButtons = document.querySelectorAll('.movie__details-button');
             this.closeDetails = document.querySelector('.details__close-icon');
             this.detailLibraryButton = document.querySelector('.card__button');
-            this.bg = document.querySelector('.details');
-            this.card = document.querySelector('.card');
-            this.imdbValue = document.querySelector('.details__imdb-value');
-            this.img = document.querySelector('.details__img');
-            this.genre = document.querySelector('.card__genre-value');
-            this.runtime = document.querySelector('.card__runtime-value');
-            this.cast = document.querySelector('.card__cast-value');
-            this.title = document.querySelector('.card__title');
-            this.plot = document.querySelector('.card__plot');
         },
 
         bindEvents: function() {
@@ -106,15 +134,7 @@
         },
 
         renderDetails(data) {
-            this.bg.classList.add('details--open');
-            this.card.classList.add('card--open');
-            this.imdbValue.innerHTML = data.imdbRating;
-            this.img.src = data.Poster;
-            this.genre.innerHTML = data.Genre;
-            this.runtime.innerHTML = data.Runtime;
-            this.cast.innerHTML = data.Actors;
-            this.title.innerHTML = data.Title;
-            this.plot.innerHTML = data.Plot;
+            details.init(data);
             this.detailLibraryButton.addEventListener('click', () => {
                 data.Status = "Unwatched";
                 let localData = searchResults.getLocalstorage();
@@ -160,6 +180,9 @@
         }
 
     }
+
+
+    // get localstorage and show movies
 
     let renderLibrary = {
         init: function() {
@@ -216,6 +239,9 @@
         }
     }
 
+
+    //Add functionality to the library buttons
+
     let library = {
         init: function() {
             this.cacheDom();
@@ -227,15 +253,6 @@
             this.detailButtons = document.querySelectorAll('.movie__details-button');
             this.removeButtons = document.querySelectorAll('.movie__remove-button');
             this.closeDetails = document.querySelector('.details__close-icon');
-            this.bg = document.querySelector('.details');
-            this.card = document.querySelector('.card');
-            this.imdbValue = document.querySelector('.details__imdb-value');
-            this.img = document.querySelector('.details__img');
-            this.genre = document.querySelector('.card__genre-value');
-            this.runtime = document.querySelector('.card__runtime-value');
-            this.cast = document.querySelector('.card__cast-value');
-            this.title = document.querySelector('.card__title');
-            this.plot = document.querySelector('.card__plot');
         },
 
         bindEvents: function() {
@@ -248,16 +265,7 @@
         showDetails: function(e) {
             let id = e.target.parentElement.id;
             let data = this.findMovie(id);
-            this.bg.classList.add('details--open');
-            this.card.classList.add('card--open');
-            this.imdbValue.innerHTML = data.imdbRating;
-            this.img.src = data.Poster;
-            this.genre.innerHTML = data.Genre;
-            this.runtime.innerHTML = data.Runtime;
-            this.cast.innerHTML = data.Actors;
-            this.title.innerHTML = data.Title;
-            this.plot.innerHTML = data.Plot;
-            
+            details.init(data);            
         },
 
         toggleWatched: function(e) {
@@ -310,6 +318,9 @@
             searchResults.setLocalstorage(localData);
         }
     }
+
+
+    //Open sidebar and get statistics from localstorage
 
     let sidebar = {
         init: function() {
@@ -371,6 +382,7 @@
     }
 
 
+    //Check what page it is and start
 
     if(document.body.classList.contains('search-page')) {
         search.init(); 
