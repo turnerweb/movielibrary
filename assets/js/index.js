@@ -56,15 +56,14 @@
             this.searchResults.innerHTML += singleMovie;
 
             }
-            searchResults.init(movies);//delete if not used
+            searchResults.init();
         }
     }
 
 
 
     let searchResults = {
-        init: function(movies) {
-            let movieList = movies;//delete if not used
+        init: function() {
             this.cacheDom();
             this.bindEvents();
         },
@@ -205,7 +204,7 @@
                         <div class="movie__buttons-container" id="${movie.imdbID}">
                             <button class="movie__watched-button">Watched</button>       
                             <button class="movie__details-button">Details</button>
-                            <button class="movie__remove-button"><img class="movie__remove-button" src="assets/img/delete.svg" alt=""></button>
+                            <button class="movie__remove-button"><img class="movie__remove-img" src="assets/img/delete.svg" alt=""></button>
                         </div>
                     </div>
                     `;
@@ -242,7 +241,8 @@
         bindEvents: function() {
             for(let button of this.detailButtons){button.addEventListener('click', this.showDetails.bind(this))};
             this.closeDetails.addEventListener('click', searchResults.close);
-            for(let button of this.watchedButtons){button.addEventListener('click', this.toggleWatched.bind(this))};  
+            for(let button of this.watchedButtons){button.addEventListener('click', this.toggleWatched.bind(this))}; 
+            for(let button of this.removeButtons){button.addEventListener('click', this.removeMovie.bind(this))}; 
         },
 
         showDetails: function(e) {
@@ -276,8 +276,19 @@
   
                     this.setLocalstorage(localData);
                 } 
+            }        
+        },
+
+        removeMovie: function(e) {
+            let id = e.target.parentElement.parentElement.id;
+            e.target.parentElement.parentElement.parentElement.remove(e.target.parentElement.parentElement);
+            let localData = this.getLocalstorage();
+            for(let i = 0; i < localData.length; i++) {
+                if(localData[i].imdbID === id) {
+                   localData.splice(i , 1)
+                   searchResults.setLocalstorage(localData);
+                }
             }
-            
             
         },
 
