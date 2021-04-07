@@ -395,12 +395,12 @@
 
         getBest(localData) {
             const max = localData.reduce((prev, current) => (prev.imdbRating > current.imdbRating) ? prev : current, 1);
-            this.bestValue.innerHTML = `${max.Title} (imdb: ${max.imdbRating})`;
+            this.bestValue.innerHTML = `${max.Title} <span class="stats__num--small">(imdb: ${max.imdbRating})</span>`;
         },
 
         getWorst(localData) {
             const min = localData.reduce((prev, current) => (prev.imdbRating < current.imdbRating) ? prev : current, 1);
-            this.worstValue.innerHTML = `${min.Title} (imdb: ${min.imdbRating})`;
+            this.worstValue.innerHTML = `${min.Title} <span class="stats__num--small">(imdb: ${min.imdbRating})</span>`;
         }
     }
 
