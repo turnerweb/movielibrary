@@ -20,20 +20,28 @@
         },
 
         searchMovies: function() {
-            
-            let searchValue = this.input.value;
-            this.input.value = "";   
-            let url = `http://www.omdbapi.com/?apikey=${key}&s=${searchValue}&type=movie`;
 
-            fetch(url)
-                .then((response) => response.json())
-                .then(function(data) {
-                    let movies = data.Search;
-                    search.renderMovies(movies);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                })
+            let searchValue = this.input.value;
+
+            if(searchValue === "") {
+                this.input.placeholder = "Type in moviename...";
+                this.input.style.border = "1px solid red";
+            } else {
+                this.input.style.border = "none";
+                this.input.placeholder = "";
+                this.input.value = "";   
+                let url = `http://www.omdbapi.com/?apikey=${key}&s=${searchValue}&type=movie`;
+
+                fetch(url)
+                    .then((response) => response.json())
+                    .then(function(data) {
+                        let movies = data.Search;
+                        search.renderMovies(movies);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    })                
+            }
         },
 
         renderMovies (movies) {
