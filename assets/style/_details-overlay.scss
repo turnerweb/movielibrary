@@ -24,6 +24,11 @@
         border: none;
         border-radius: 50px;
         background-color: $white;
+        transition: transform .3s ease;
+
+        &:hover {
+            transform: rotate(-90deg);
+        }
     }
 
     &__imdb {
