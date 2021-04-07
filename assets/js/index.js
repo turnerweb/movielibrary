@@ -58,7 +58,7 @@
                 let singleMovie = `
                 <div class="movie" id="${movie.imdbID}">
                     <div class="movie__top-container">
-                        <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
+                        <img class="movie__img" src="${movie.Poster}" width="125px" height="185px" alt="Movie Poster">
                         <div class="movie__text-container">
                             <h3 class="movie__title">${movie.Title}</h3>
                             <p class="movie__year">${movie.Year}</p>
@@ -242,9 +242,9 @@
 
                     let libraryMovie = `
                     <div class="movie ${watched}">
-                        <img class="movie__watched ${watchedIcon}" src="assets/img/watched.svg" alt="">
+                        <img class="movie__watched ${watchedIcon}" src="assets/img/watched.svg" width="35px" height="35px" alt="">
                         <div class="movie__top-container">
-                            <img class="movie__img" src="${movie.Poster}" alt="Movie Poster">
+                            <img class="movie__img" src="${movie.Poster}" width="125px" height="185px" alt="Movie Poster">
                             <div class="movie__text-container">
                                 <h3 class="movie__title">${movie.Title}</h3>
                                 <p class="movie__year">${movie.Year}</p>
@@ -253,7 +253,7 @@
                         <div class="movie__buttons-container" id="${movie.imdbID}">
                             <button class="movie__watched-button">${status}</button>       
                             <button class="movie__details-button">Details</button>
-                            <button class="movie__remove-button"><img class="movie__remove-img" src="assets/img/delete.svg" alt=""></button>
+                            <button class="movie__remove-button"><img class="movie__remove-img" src="assets/img/delete.svg" alt="Remove movie from library"></button>
                         </div>
                     </div>
                     `;
