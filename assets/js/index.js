@@ -39,7 +39,9 @@
                         search.renderMovies(movies);
                     })
                     .catch(function(error) {
-                        console.log(error);
+                        if(error) {
+                            search.searchResults.innerHTML = '<h2 class="results__no-movies">No movies found...<br>try again</h2>'
+                        }
                     })                
             }
         },
