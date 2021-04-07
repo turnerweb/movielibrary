@@ -223,10 +223,12 @@
 
                     let watched = "";
                     let watchedIcon = "";
+                    let status = "Watched";
 
                     if(movie.Status === "Watched") {
                         watched = "movie--watched";
                         watchedIcon = "movie__watched--show";
+                        status = "Unwatched";
                     }
 
                     if(movie.Poster === 'N/A') {
@@ -244,7 +246,7 @@
                             </div>
                         </div>
                         <div class="movie__buttons-container" id="${movie.imdbID}">
-                            <button class="movie__watched-button">Watched</button>       
+                            <button class="movie__watched-button">${status}</button>       
                             <button class="movie__details-button">Details</button>
                             <button class="movie__remove-button"><img class="movie__remove-img" src="assets/img/delete.svg" alt=""></button>
                         </div>
@@ -297,8 +299,10 @@
                 if(localData[i].imdbID === id) {
                     if(localData[i].Status === "Unwatched") {
                         localData[i].Status = "Watched";
+                        e.target.innerHTML = "Unwatched";
                     } else if(localData[i].Status === "Watched") {
                         localData[i].Status = "Unwatched";
+                        e.target.innerHTML = "Watched";
                     }
   
                     this.setLocalstorage(localData);
