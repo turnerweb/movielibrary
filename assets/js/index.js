@@ -36,7 +36,6 @@
                     .then((response) => response.json())
                     .then(function(data) {
                         let movies = data.Search;
-                        console.log(movies)
                         search.renderMovies(movies);
                     })
                     .catch(function(error) {
@@ -170,11 +169,17 @@
             fetch(url)
                 .then((response) => response.json())
                 .then(function(data) {
-                    data.Status = "Unwatched";
+                    
                     let localData = searchResults.getLocalstorage();
-                    localData.push(data);
-                    searchResults.setLocalstorage(localData);
-
+                    
+                    if(library.findMovie(movieId) === undefined) {
+                        data.Status = "Unwatched";                 
+                        localData.push(data);
+                        searchResults.setLocalstorage(localData);  
+                        e.target.innerHTML = "In library";                      
+                    } else {
+                        e.target.innerHTML = "In library";
+                    }
                 })
                 .catch(function(error) {
                     console.log(error);
