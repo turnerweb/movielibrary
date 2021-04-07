@@ -36,6 +36,7 @@
                     .then((response) => response.json())
                     .then(function(data) {
                         let movies = data.Search;
+                        console.log(movies)
                         search.renderMovies(movies);
                     })
                     .catch(function(error) {
@@ -50,6 +51,10 @@
             this.searchResults.innerHTML = "";
 
             for(let movie of movies) {
+
+                if(movie.Poster === 'N/A') {
+                    movie.Poster = 'assets/img/poster-placeholder.jpg';
+                }
                 
                 let singleMovie = `
                 <div class="movie" id="${movie.imdbID}">
@@ -222,6 +227,10 @@
                     if(movie.Status === "Watched") {
                         watched = "movie--watched";
                         watchedIcon = "movie__watched--show";
+                    }
+
+                    if(movie.Poster === 'N/A') {
+                        movie.Poster = 'assets/img/poster-placeholder.jpg';
                     }
 
                     let libraryMovie = `
