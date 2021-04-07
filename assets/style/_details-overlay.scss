@@ -97,6 +97,11 @@
     transition: bottom .6s ease-out;
     transition-delay: .4s;
 
+    @include height640 {
+        height: 75vh;
+        overflow-y: scroll;
+    }
+
     &--open {
         bottom: 0;
     }

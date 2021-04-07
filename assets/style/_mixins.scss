@@ -10,6 +10,18 @@
     }
 }
 
+@mixin height800 {
+    @media screen and (max-height: 800px) {
+        @content;
+    }
+}
+
+@mixin height640 {
+    @media screen and (max-height: 640px) {
+        @content;
+    }
+}
+
 @mixin content-width {
     width: 90%;
     max-width: 1200px;
