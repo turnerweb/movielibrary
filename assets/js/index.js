@@ -30,7 +30,7 @@
                 this.input.style.border = "none";
                 this.input.placeholder = "";
                 this.input.value = "";   
-                let url = `http://www.omdbapi.com/?apikey=${key}&s=${searchValue}&type=movie`;
+                let url = `https://www.omdbapi.com/?apikey=${key}&s=${searchValue}&type=movie`;
 
                 fetch(url)
                     .then((response) => response.json())
@@ -134,7 +134,7 @@
 
         getDetailsForRender: function(e) {
             let movieId = e.target.parentElement.id;
-            let url = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
+            let url = `https://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
             fetch(url)
             .then((response) => response.json())
@@ -164,7 +164,7 @@
 
         addToLibrary: function(e) {
             let movieId = e.target.parentElement.id;
-            let url = `http://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
+            let url = `https://www.omdbapi.com/?apikey=${key}&i=${movieId}&plot=full`;
 
             fetch(url)
                 .then((response) => response.json())
@@ -400,12 +400,20 @@
 
         getBest(localData) {
             const max = localData.reduce((prev, current) => (prev.imdbRating > current.imdbRating) ? prev : current, 1);
-            this.bestValue.innerHTML = `${max.Title} <span class="stats__num--small">(imdb: ${max.imdbRating})</span>`;
+            if(localData.length === 0) {
+                this.bestValue.innerHTML = "Library empty";
+            } else {
+                this.bestValue.innerHTML = `${max.Title} <span class="stats__num--small">(imdb: ${max.imdbRating})</span>`;    
+            }   
         },
 
         getWorst(localData) {
             const min = localData.reduce((prev, current) => (prev.imdbRating < current.imdbRating) ? prev : current, 1);
-            this.worstValue.innerHTML = `${min.Title} <span class="stats__num--small">(imdb: ${min.imdbRating})</span>`;
+            if(localData.length === 0) {
+                this.worstValue.innerHTML = "Library empty";
+            } else {
+                this.worstValue.innerHTML = `${min.Title} <span class="stats__num--small">(imdb: ${min.imdbRating})</span>`;    
+            }
         }
     }
 
